@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ccc;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        #user-msg {
+            color: #333;
+            transition: opacity 0.3s ease;
+        }
+
+        .logout {
+            color: #dc3545;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div id="user-msg">{{ user.username }}</div>
+        <a class="logout" href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    <div class="content">
+        <h2>This is your home page.</h2>
+    </div>
+
+    {% if messages %}
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const userMsg = document.getElementById("user-msg");
+            const originalName = "{{ user.username }}";
+
+            {% for message in messages %}
+                userMsg.textContent = "{{ message }}";
+            {% endfor %}
+
+            setTimeout(() => {
+                userMsg.textContent = originalName;
+            }, 5000);
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
