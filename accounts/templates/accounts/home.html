@@ -51,6 +51,8 @@
 <body>
     <div class="top-bar">
         <div id="user-msg">{{ user.username }}</div>
+        <a href="{% url 'problem_bank' %}" style="text-decoration: none; color: inherit;">Problem Bank</a>
+        <a href = "{% url 'create_problem' %}" style="text-decoration: none; color: inherit;">+ create</a>
         <a class="logout" href="{% url 'logout' %}">Logout</a>
     </div>
 
@@ -63,14 +65,18 @@
         window.addEventListener("DOMContentLoaded", () => {
             const userMsg = document.getElementById("user-msg");
             const originalName = "{{ user.username }}";
-
-            {% for message in messages %}
-                userMsg.textContent = "{{ message }}";
-            {% endfor %}
-
-            setTimeout(() => {
-                userMsg.textContent = originalName;
-            }, 5000);
+            // Render Django messages as a JavaScript array
+            const messages = [
+                {% for message in messages %}
+                    "{{ message|escapejs }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+            if (messages.length > 0) {
+                userMsg.textContent = messages.join(' ');
+                setTimeout(() => {
+                    userMsg.textContent = originalName;
+                }, 5000);
+            }
         });
     </script>
     {% endif %}

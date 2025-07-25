@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Problem Bank{% endblock %}
+
+{% block content %}
+<div class="top-bar">
+    <div id="user-msg">
+        <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">
+            {{ user.username }}
+        </a>
+    </div>
+</div>
+<h1>Problem Bank</h1>
+
+{% if problems %}
+    <table border="1" style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr style="text-align: left;">
+                <th style="padding: 8px;">#</th>
+                <th style="padding: 8px;">Title</th>
+                <th style="padding: 8px;">Difficulty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for problem in problems %}
+                <tr>
+                    <td style="padding: 8px;">{{ forloop.counter }}</td>
+                    <td style="padding: 8px;">
+                        {# This link will work after we create the 'problems' app #}
+                        <a href="{% url 'problem_detail' problem.id %}">
+                            {{ problem.title }}
+                        </a>
+                    </td>
+                    <td style="padding: 8px;">{{ problem.difficulty }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No problems yet.</p>
+{% endif %}
+
+{% endblock %}
