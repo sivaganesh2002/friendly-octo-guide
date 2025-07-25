@@ -1,4 +1,4 @@
-# Code Judge WebApp
+# Code Judge
 
 The `code_judge` web application is a platform designed to facilitate coding challenges.
 still in nascent stage, Below are the features available in the current version of the app
