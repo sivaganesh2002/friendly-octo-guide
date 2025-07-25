@@ -1,84 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+{% extends 'base.html' %}
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #ccc;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
+{% block title %}Home{% endblock %}
 
-        #user-msg {
-            color: #333;
-            transition: opacity 0.3s ease;
-        }
+{% block nav_actions %}
+<a href="{% url 'create_problem' %}">+ create</a>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
 
-        .logout {
-            color: #dc3545;
-            text-decoration: none;
-        }
-
-        .logout:hover {
-            text-decoration: underline;
-        }
-
-        .content {
-            max-width: 600px;
-            margin: 80px auto;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-
-        h2 {
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <div class="top-bar">
-        <div id="user-msg">{{ user.username }}</div>
-        <a href="{% url 'problem_bank' %}" style="text-decoration: none; color: inherit;">Problem Bank</a>
-        <a href = "{% url 'create_problem' %}" style="text-decoration: none; color: inherit;">+ create</a>
-        <a class="logout" href="{% url 'logout' %}">Logout</a>
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; height: 60vh;">
+    <div style="padding: 2rem 3rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); background: white;">
+        <h2 style="margin: 0; text-align: center;">This is your home page.</h2>
     </div>
-
-    <div class="content">
-        <h2>This is your home page.</h2>
-    </div>
-
-    {% if messages %}
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            const userMsg = document.getElementById("user-msg");
-            const originalName = "{{ user.username }}";
-            // Render Django messages as a JavaScript array
-            const messages = [
-                {% for message in messages %}
-                    "{{ message|escapejs }}"{% if not forloop.last %},{% endif %}
-                {% endfor %}
-            ];
-            if (messages.length > 0) {
-                userMsg.textContent = messages.join(' ');
-                setTimeout(() => {
-                    userMsg.textContent = originalName;
-                }, 5000);
-            }
-        });
-    </script>
-    {% endif %}
-</body>
-</html>
+</div>
+{% endblock %}
