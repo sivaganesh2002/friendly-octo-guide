@@ -3,9 +3,24 @@
 {% block title %}Home{% endblock %}
 
 {% block nav_actions %}
-<a href="{% url 'create_problem' %}">+ create</a>
-<a href="{% url 'logout' %}">Logout</a>
+<div class="user-welcome-container">
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                    <a href="{% url 'home' %}" class="welcome-message-overlay">{{ message }}</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <a href="{% url 'home' %}" class="username-display">@{{ user.username }}</a>
+    </div>
 {% endblock %}
+
+{# This new block controls the RIGHT side of the navbar #}
+{% block nav_actions_right %}
+    <a href="{% url 'create_problem' %}">+Create</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+    
 
 {% block content %}
 <div style="display: flex; justify-content: center; align-items: center; height: 60vh;">
@@ -13,4 +28,21 @@
         <h2 style="margin: 0; text-align: center;">This is your home page.</h2>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const welcomeOverlay = document.querySelector('.welcome-message-overlay');
+
+        if (welcomeOverlay) {
+            setTimeout(() => {
+                // Fade out the message
+                welcomeOverlay.style.opacity = '0';
+                // Remove it after the fade transition
+                setTimeout(() => {
+                    welcomeOverlay.style.display = 'none';
+                }, 500); // Match CSS transition time
+            }, 3000); // 3 seconds
+        }
+    });
+</script>
 {% endblock %}

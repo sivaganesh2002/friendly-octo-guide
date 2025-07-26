@@ -3,13 +3,6 @@
 {% block title %}Problem Bank{% endblock %}
 
 {% block content %}
-<div class="top-bar">
-    <div id="user-msg">
-        <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">
-            {{ user.username }}
-        </a>
-    </div>
-</div>
 <h1>Problem Bank</h1>
 
 {% if problems %}
