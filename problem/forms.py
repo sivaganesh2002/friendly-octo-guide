@@ -1,5 +1,27 @@
 from django import forms
 from .models import Problem
+from django.http import JsonResponse
+
+class SubmissionForm(forms.Form):
+    language = forms.ChoiceField(
+        choices=[
+            ('python', 'python'),
+            ('C++', 'C++'),
+            ('C', 'C'),
+        ],
+        initial='python',
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    code = forms.CharField(widget=forms.Textarea(
+        attrs={'id':'vi', 'class': 'form-control', 
+               'rows': 10, 'cols' : 75, 
+               'placeholder': 'Write your code here...'}), 
+        required=True)
+    cinput = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 2, 'cols': 75, 
+                'placeholder': 'Input to the code...'}),
+        required=False
+    )
 
 class ProblemForm(forms.ModelForm):
     class Meta:

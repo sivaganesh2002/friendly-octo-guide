@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "accounts",
     "problem",
     "problem_bank",
+    "compiler",
 ]
 
 MIDDLEWARE = [
