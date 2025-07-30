@@ -5,9 +5,9 @@ from django.http import JsonResponse
 class SubmissionForm(forms.Form):
     language = forms.ChoiceField(
         choices=[
-            ('python', 'python'),
-            ('C++', 'C++'),
-            ('C', 'C'),
+            ('py', 'python'),
+            ('cpp', 'C++'),
+            ('c', 'C'),
         ],
         initial='python',
         widget=forms.Select(attrs={'class': 'form-select'})

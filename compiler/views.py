@@ -7,7 +7,7 @@ import uuid
 # define path to tmp directory
 COMPILER_DIR = Path(settings.BASE_DIR) / 'compiler' / 'tmp'
 CODE_DIR = COMPILER_DIR / 'code'
-EXEC_DIR = COMPILER_DIR / 'exec'
+EXEC_DIR = COMPILER_DIR / 'executables'
 
 def compile_python(path, cinput):
     """
@@ -15,21 +15,21 @@ def compile_python(path, cinput):
     """
     process = subprocess.run(
         ['python', str(path)],
-        stdin=cinput,
-        stdout=process.PIPE,
-        stderr=process.PIPE,
+        input=cinput.encode(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
     return {
-        'coutput': process.stdout,
-        'cerr': process.stderr
+        'coutput': process.stdout.decode('utf-8', errors='replace'),
+        'cerr': process.stderr.decode('utf-8', errors='replace')
     }
 
 def compile_c(path, cinput):
     """
     compile and execute C code
     """
-    uuid = path.stem
-    exec_path = EXEC_DIR / f'{uuid}'
+    uuid_name = path.stem
+    exec_path = EXEC_DIR / f'{uuid_name}'
     if os.name == 'nt':
         exec_path = exec_path.with_suffix('.exe')
     
@@ -42,25 +42,26 @@ def compile_c(path, cinput):
     if compile_process.returncode != 0:
         return {
             'coutput': '',
-            'cerror' : compile_process.stderr
+            'cerror' : compile_process.stderr.decode('utf-8', errors='replace')
         }
     
     run_process = subprocess.run(
         [str(exec_path)],
-        input=cinput,
+        input=cinput.encode(),
         capture_output=True,
     )
     return {
-        'coutput': run_process.stdout,
-        'cerr': run_process.stderr
+        'coutput': run_process.stdout.decode('utf-8', errors='replace'),
+        'cerr': run_process.stderr.decode('utf-8', errors='replace')
     }
 
 def compile_cpp(path, cinput):
     """
     compile and execute C++ code
     """
-    uuid = path.stem
-    exec_path = EXEC_DIR / f'{uuid}'
+    uuid_name = path.stem
+    exec_path = EXEC_DIR / f'{uuid_name}'
+    
     if os.name == 'nt':
         exec_path = exec_path.with_suffix('.exe')
     
@@ -73,17 +74,17 @@ def compile_cpp(path, cinput):
     if compile_process.returncode != 0:
         return {
             'coutput': '',
-            'cerror' : compile_process.stderr
+            'cerror' : compile_process.stderr.decode('utf-8', errors='replace')
         }
     
     run_process = subprocess.run(
         [str(exec_path)],
-        input=cinput,
+        input=cinput.encode(),
         capture_output=True,
     )
     return {
-        'coutput': run_process.stdout,
-        'cerr': run_process.stderr
+        'coutput': run_process.stdout.decode('utf-8', errors='replace'),
+        'cerr': run_process.stderr.decode('utf-8', errors='replace')
     }
 
 LANGAUGE_DISPATCH = {
@@ -99,20 +100,20 @@ def execute(language, code, cinput) :
      return dict(coutput, cerror) 
     """
 
-    uuid = uuid.uuid4()
+    uuid_name = uuid.uuid4()
     path = None
-    if language in ['C++', 'C']:
-        path = CODE_DIR / f'{uuid}.{language}'
+    if language in ['cpp', 'c']:
+        path = CODE_DIR / f'{uuid_name}.{language}'
     else: 
-        path = EXEC_DIR / f'{uuid}.py'
+        path = EXEC_DIR / f'{uuid_name}.py'
 
     if path is None:
         return {
             'coutput': '',
             'cerr': 'Unsupported language'
         }
-    
-    with open(path, 'w') as f:
+
+    with open(path, 'w', encoding='utf-8') as f:
         f.write(code)
 
     return LANGAUGE_DISPATCH[language](path, cinput)

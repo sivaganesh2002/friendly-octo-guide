@@ -3,6 +3,7 @@ from .models import Problem
 from django.contrib.auth.decorators import login_required
 from .forms import ProblemForm, SubmissionForm
 from django.http import JsonResponse
+from compiler.views import execute
 
 # Create your views here.
 def run(code, cinput, language):
@@ -10,8 +11,9 @@ def run(code, cinput, language):
     run, ctestcase, submit the code using a compiler app.
 
     """
-    
-    pass
+    result = execute(language, code, cinput)
+    return result
+
 
 @login_required
 def p_detail(request, pid):
