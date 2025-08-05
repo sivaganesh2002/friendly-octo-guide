@@ -1,0 +1,22 @@
+[
+  {
+    "input": { "s": "babad" },
+    "output": "bab"
+  },
+  {
+    "input": { "s": "cbbd" },
+    "output": "bb"
+  },
+  {
+    "input": { "s": "a" },
+    "output": "a"
+  },
+  {
+    "input": { "s": "ac" },
+    "output": "a"
+  },
+  {
+    "input": { "s": "racecar" },
+    "output": "racecar"
+  }
+]

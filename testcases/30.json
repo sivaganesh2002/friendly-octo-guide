@@ -1,0 +1,22 @@
+[
+  {
+    "input": { "s": "A man, a plan, a canal: Panama" },
+    "output": true
+  },
+  {
+    "input": { "s": "race a car" },
+    "output": false
+  },
+  {
+    "input": { "s": " " },
+    "output": true
+  },
+  {
+    "input": { "s": "0P" },
+    "output": false
+  },
+  {
+    "input": { "s": "Was it a car or a cat I saw?" },
+    "output": true
+  }
+]

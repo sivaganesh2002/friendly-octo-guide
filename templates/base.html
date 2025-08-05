@@ -40,9 +40,26 @@
             gap: 12px;
         }
 
+        .nav-right a[href$="/logout/"] {
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+
         .nav-right a[href$="/logout/"]:hover {
             background-color: #444;
             color: #ff4d4d;
+        }
+        
+        .nav-right a[href$="/logout/"] svg path {
+            fill: white;
+            transition: fill 0.2s ease;
+        }
+        
+        .nav-right a[href$="/logout/"]:hover svg path {
+            fill: #ff4d4d;
         }
         
         .menu-icon {
@@ -113,7 +130,12 @@
             {% block nav_actions_right %}
                 {# This is the new block for right-side actions #}
                 {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}">Logout</a>
+                    <a href="{% url 'logout' %}" aria-label="Logout">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 13V11H7V8L3 12L7 16V13H16Z" fill="white" rx="12" ry="12"/>
+                            <path d="M10 3H21V21H10V18H12V19H19V5H12V6H10V3Z" fill="white" rx="12" ry="12"/>
+                        </svg>
+                    </a>
                 {% endif %}
             {% endblock %}
         </div>

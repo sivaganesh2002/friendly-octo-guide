@@ -22,10 +22,6 @@ class Problem(models.Model):
     time_limit = models.FloatField(default=1.0, blank=True)  # In seconds
     memory_limit = models.IntegerField(default=256, blank=True)  # In MB
 
-    examples = models.TextField(blank=True, null=True)  # JSON or plain text
-
-    hints = models.TextField(blank=True, null=True)
-
     def get_tags(self) -> list[str]:
         return self.tags.split(',') if  self.tags else []
 

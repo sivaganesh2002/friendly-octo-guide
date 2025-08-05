@@ -29,12 +29,17 @@
         </div>
         <br>
         <button type="submit" name="action" value="run" id="run-btn">run</button>
-        <button type="submit" name="action" value="ctestcase" id="ctestcase-btn">testcase</button>
-        <button type="submit" name="action" value="run" value="submit" id="submit-btn">submit</button>
+        <button type="submit" name="action" value="testcase" id="ctestcase-btn">testcase</button>
+        <button type="submit" name="action" value="submit" id="submit-btn">submit</button>
     </form>
     <br><br>
 
     <!-- stdout/stderr section -->
+     {% if status %}
+        <h3>Submission Status</h3>
+        <pre style="background-color: #f5f5f5; border: 1px solid #ccc; padding: 10px;">{{ status }}</pre>
+    {% endif %}
+    
      {% if coutput %}
         <h3>output</h3>
         <pre style="background-color: #f5f5f5; border: 1px solid #ccc; padding: 10px;">{{ coutput }}</pre>

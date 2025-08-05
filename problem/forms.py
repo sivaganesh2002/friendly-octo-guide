@@ -24,6 +24,13 @@ class SubmissionForm(forms.Form):
     )
 
 class ProblemForm(forms.ModelForm):
+    testcases = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 20, 'cols': 25, 
+                'placeholder': 'Input to the testcase json...'
+               }),
+        label='Testcase json',
+    )
+
     class Meta:
         model = Problem
         fields = [
@@ -31,17 +38,13 @@ class ProblemForm(forms.ModelForm):
             'tags',
             'description',
             'difficulty',
-            'constraints',
-            'examples',
-            'hints'
+            'constraints'
         ]
 
         widgets = {
             'tags': forms.TextInput(attrs={'placeholder': 'Comma-separated tags'}),
             'description': forms.Textarea(attrs={'rows': 5, 'placeholder': 'the array of size n is...'}),
-            'constraints': forms.Textarea(attrs={'rows': 3}),
-            'examples': forms.Textarea(attrs={'rows': 3}),
-            'hints': forms.Textarea(attrs={'rows': 3}),
+            'constraints': forms.Textarea(attrs={'rows': 3})
         }
 
     def __init__(self, *args, **kwargs):
@@ -51,18 +54,13 @@ class ProblemForm(forms.ModelForm):
         self.fields['tags'].widget.attrs.update({'class': 'form-control'})
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['constraints'].widget.attrs.update({'class': 'form-control'})
-        self.fields['examples'].widget.attrs.update({'class': 'form-control'})
-        self.fields['hints'].widget.attrs.update({'class': 'form-control'})
         self.fields['difficulty'].widget = forms.Select(choices=[
             ('Easy', 'Easy'),
             ('Medium', 'Medium'),
             ('Hard', 'Hard')
         ])
+        self.fields['testcases'].widget.attrs.update({'class': 'form-control'})
 
         self.fields['constraints'].required = False
-        self.fields['examples'].required = False
-        self.fields['hints'].required = False
-        
-        
 
-
+        

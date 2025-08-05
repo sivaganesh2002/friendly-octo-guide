@@ -1,0 +1,22 @@
+[
+  {
+    "input": { "s": "leetcode", "wordDict": ["leet", "code"] },
+    "output": true
+  },
+  {
+    "input": { "s": "applepenapple", "wordDict": ["apple", "pen"] },
+    "output": true
+  },
+  {
+    "input": { "s": "catsandog", "wordDict": ["cats", "dog", "sand", "and", "cat"] },
+    "output": false
+  },
+  {
+    "input": { "s": "a", "wordDict": ["a"] },
+    "output": true
+  },
+  {
+    "input": { "s": "aaaaaaa", "wordDict": ["aaaa", "aaa"] },
+    "output": true
+  }
+]

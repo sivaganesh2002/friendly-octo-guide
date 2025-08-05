@@ -1,0 +1,22 @@
+[
+  {
+    "input": { "heights": [2, 1, 5, 6, 2, 3] },
+    "output": 10
+  },
+  {
+    "input": { "heights": [2, 4] },
+    "output": 4
+  },
+  {
+    "input": { "heights": [1, 1, 1, 1, 1] },
+    "output": 5
+  },
+  {
+    "input": { "heights": [5] },
+    "output": 5
+  },
+  {
+    "input": { "heights": [0, 9] },
+    "output": 9
+  }
+]
