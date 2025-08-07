@@ -1,0 +1,33 @@
+.split-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-top: 2rem;
+}
+
+.split-left, .split-right {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.split-left {
+    flex: 1 1 45%;
+    min-width: 350px;
+    max-width: 600px;
+}
+
+.split-right {
+    flex: 1 1 55%;
+    min-width: 350px;
+    max-width: 700px;
+}
+
+.output-box {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+}

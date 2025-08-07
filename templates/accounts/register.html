@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    {% block title %}Register{% endblock %}
+    <link rel="stylesheet" href="{% static 'accounts/css/register.css' %}">
+    <script src="{% static 'accounts/js/register.js' %}"></script>
+    
+</head>
+<body>
+    <h2>Create an Account</h2>
+
+    {% if messages %}
+        <ul class="message">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+
+        <label for="email">mail ID</label>
+        <input type="email" name="email" required>
+
+        <label for="password ">Password</label>
+        <input type="password" name="password" required>
+
+        <label for="Enter password again">Re-enter Password</label>
+        <input type="password" name="password_reentered" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="login-link">
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+    </div>
+</body>
+</html>

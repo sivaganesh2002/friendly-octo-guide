@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ problem.title }}{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'problem/css/problem_detail.css' %}">
+<script src="{% static 'problem/js/problem_detail.js' %}"></script>
+
+<div class="split-container">
+    <div class="split-left">
+        <form method="POST" action="{% url 'problem_detail' problem.id %}">
+            {% csrf_token %}
+            
+            <div>
+                {{ form.language }}
+            </div>
+            <div>
+                {{ form.code }}
+            </div>
+            <div>
+                {{ form.cinput }}
+            </div>
+
+            <button type="submit" name="action" value="run" id="run-btn">Run</button>
+            <button type="submit" name="action" value="testcase" id="ctestcase-btn">Testcase</button>
+            <button type="submit" name="action" value="submit" id="submit-btn">Submit</button>
+        </form>
+        <br>
+
+        {% if status %}
+            <h3>Submission Status</h3>
+            <pre class="output-box">{{ status }}</pre>
+        {% endif %}
+        {% if coutput %}
+            <h3>Output</h3>
+            <pre class="output-box">{{ coutput }}</pre>
+        {% endif %}
+        {% if cerror %}
+            <h3>Error</h3>
+            <pre class="output-box">{{ cerror }}</pre>
+        {% endif %}
+    </div>    
+
+    <!-- right pane -->
+    <div class="split-right">
+        <h1>{{ problem.title }}</h1>
+        <p>{{ problem.difficulty }}</p>
+        <hr>
+        <p>{{ problem.description|linebreaks }}</p>
+    </div>
+    <br>   
+{% endblock %}
