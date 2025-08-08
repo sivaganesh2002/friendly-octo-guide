@@ -94,11 +94,35 @@ def p_detail(request, pid):
                     problem.save()
 
                 except FileNotFoundError:
-                    ctx['status'] = f"{pid}; Test cases not found for this problem."
+                    ctx['cerror'] = f"{pid}; Test cases not found for this problem."
                 except json.JSONDecodeError:
-                    ctx['status'] = f"{pid}; Invalid test case format."
+                    ctx['cerror'] = f"{pid}; Invalid test case format."
 
-            elif action == 'run' or action == 'testcase':
+            elif action == 'run':
+                testcase_file = os.path.join('testcases', f'{pid}.json')
+
+                try:
+                    with open(testcase_file, 'r') as f:
+                        testcases = json.load(f)
+                    
+                    input_parts = []
+                    for value in testcases[0]['input'].values():
+                        if type(value) == list:
+                            input_parts.append(' '.join(map(str, value)))
+                        else:
+                            input_parts.append(str(value))
+                    cinput = '\n'.join(input_parts)
+                    result = run(code, cinput, language)
+
+                    ctx['coutput'] = result.get("coutput", "")
+                    ctx['cerror'] = result.get("cerr", "")
+
+                except FileNotFoundError:
+                    ctx['cerror'] = f"{pid}; Test cases not found for this problem."
+                except json.JSONDecodeError:
+                    ctx['cerror'] = f"{pid}; Invalid test case format."
+
+            elif action == 'testcase':
                 cinput = form.cleaned_data.get('cinput', '')
                 result = run(code, cinput, language)
 
