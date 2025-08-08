@@ -40,7 +40,11 @@
             <h3>Error</h3>
             <pre class="output-box">{{ cerror }}</pre>
         {% endif %}
-    </div>    
+
+        {% if ai_feedback %}
+            <pre class="output-box">{{ ai_feedback }}</pre>
+        {% endif %}
+    </div>
 
     <!-- right pane -->
     <div class="split-right">

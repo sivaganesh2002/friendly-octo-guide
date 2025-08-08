@@ -7,6 +7,8 @@ from compiler.views import execute
 import os
 import json
 
+from .ai_request import aicall
+
 # Create your views here.
 def run(code, cinput, language):
     """
@@ -43,7 +45,7 @@ def evaluate_submission(code, language, testcases, pid):
 
         result = run(code, cinput, language)
         coutput = result.get("coutput", "").strip().lower()
-        cerr = result.get("cerr", "").strip()
+        cerr = result.get("cerror", "").strip()
 
         if cerr:
             return {
@@ -94,9 +96,9 @@ def p_detail(request, pid):
                     problem.save()
 
                 except FileNotFoundError:
-                    ctx['cerror'] = f"{pid}; Test cases not found for this problem."
+                    ctx['status'] = f"{pid}; Test cases not found for this problem."
                 except json.JSONDecodeError:
-                    ctx['cerror'] = f"{pid}; Invalid test case format."
+                    ctx['status'] = f"{pid}; Invalid test case format."
 
             elif action == 'run':
                 testcase_file = os.path.join('testcases', f'{pid}.json')
@@ -118,9 +120,9 @@ def p_detail(request, pid):
                     ctx['cerror'] = result.get("cerr", "")
 
                 except FileNotFoundError:
-                    ctx['cerror'] = f"{pid}; Test cases not found for this problem."
+                    ctx['status'] = f"{pid}; Test cases not found for this problem."
                 except json.JSONDecodeError:
-                    ctx['cerror'] = f"{pid}; Invalid test case format."
+                    ctx['status'] = f"{pid}; Invalid test case format."
 
             elif action == 'testcase':
                 cinput = form.cleaned_data.get('cinput', '')
@@ -128,7 +130,23 @@ def p_detail(request, pid):
 
                 ctx['coutput'] = result.get("coutput", "")
                 ctx['cerror'] = result.get("cerr", "")
-    
+
+            if ctx.get('cerror') != "":
+
+                payload = [                    
+                    problem.title,
+                    problem.tags,
+                    problem.constraints,
+
+                    code,
+
+                    ctx['cerror'],
+                    ctx.get('status', "")
+                ]
+
+                ctx['ai_feedback'] = aicall(payload, action)
+                print(f"AI feedback: {ctx['ai_feedback']}")
+
     else:
         ctx['form'] = SubmissionForm()
     return render(request, 'problem/problem_detail.html', ctx)

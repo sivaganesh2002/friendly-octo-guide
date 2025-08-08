@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Load environment variables from .env file
 
 # Application definition
 
