@@ -143,9 +143,9 @@ def p_detail(request, pid):
                     ctx['cerror'],
                     ctx.get('status', "")
                 ]
-
+    
                 ctx['ai_feedback'] = aicall(payload, action)
-                print(f"AI feedback: {ctx['ai_feedback']}")
+
 
     else:
         ctx['form'] = SubmissionForm()
