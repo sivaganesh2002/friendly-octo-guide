@@ -3,8 +3,7 @@
 <head>
     <title>{% block title %}Login{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
-    <script src="{% static 'accounts/js/login.js' %}"></script>
+    
 </head>
 <body>
     <h2>Login</h2>
@@ -33,3 +32,11 @@
     </div>
 </body>
 </html>
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'accounts/js/login.js' %}"></script>
+{% endblock %}

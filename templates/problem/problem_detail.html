@@ -4,54 +4,74 @@
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'problem/css/problem_detail.css' %}">
-<script src="{% static 'problem/js/problem_detail.js' %}"></script>
 
-<div class="split-container">
-    <div class="split-left">
+<div class="problem-solving-container">
+    <!-- Left Pane: Code Editor -->
+    <div class="code-editor-container">
         <form method="POST" action="{% url 'problem_detail' problem.id %}">
             {% csrf_token %}
             
-            <div>
+            <div class="language-selector">
                 {{ form.language }}
             </div>
-            <div>
+            <div class="code-editor">
                 {{ form.code }}
             </div>
-            <div>
+            <div class="code-input-box">
                 {{ form.cinput }}
             </div>
 
-            <button type="submit" name="action" value="run" id="run-btn">Run</button>
-            <button type="submit" name="action" value="testcase" id="ctestcase-btn">Testcase</button>
-            <button type="submit" name="action" value="submit" id="submit-btn">Submit</button>
+            <div class="button-group">
+                <button type="submit" name="action" value="run" id="run-btn">Run</button>
+                <button type="submit" name="action" value="testcase" id="ctestcase-btn">Testcase</button>
+                <button type="submit" name="action" value="submit" id="submit-btn">Submit</button>
+            </div>
         </form>
-        <br>
 
-        {% if status %}
-            <h3>Submission Status</h3>
-            <pre class="output-box">{{ status }}</pre>
-        {% endif %}
-        {% if coutput %}
-            <h3>Output</h3>
-            <pre class="output-box">{{ coutput }}</pre>
-        {% endif %}
-        {% if cerror %}
-            <h3>Error</h3>
-            <pre class="output-box">{{ cerror }}</pre>
-        {% endif %}
-
-        {% if ai_feedback %}
-            <pre class="output-box">{{ ai_feedback }}</pre>
-        {% endif %}
+        <div class="output-section">
+            {% if status %}
+                <h3>Submission Status</h3>
+                <pre class="output-box">{{ status }}</pre>
+            {% endif %}
+            {% if coutput %}
+                <h3>Output</h3>
+                <pre class="output-box">{{ coutput }}</pre>
+            {% endif %}
+            {% if cerror %}
+                <h3>Error</h3>
+                <pre class="output-box">{{ cerror }}</pre>
+            {% endif %}
+            {% if ai_feedback %}
+                <h3>AI Feedback</h3>
+                <pre class="output-box">{{ ai_feedback }}</pre>
+            {% endif %}
+        </div>
     </div>
 
-    <!-- right pane -->
-    <div class="split-right">
+    <!-- Right Pane: Problem Details -->
+    <div class="problem-details-container">
         <h1>{{ problem.title }}</h1>
-        <p>{{ problem.difficulty }}</p>
+        <p class="difficulty">{{ problem.difficulty }}</p>
+        <div class="tags">
+            {% for tag in problem.tags %}
+                <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
         <hr>
-        <p>{{ problem.description|linebreaks }}</p>
+        <div class="problem-description">
+            <p>{{ problem.description|linebreaks }}</p>
+        </div>
     </div>
-    <br>   
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'problem/js/problem_detail.js' %}"></script>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'problem/css/problem_detail.css' %}">
 {% endblock %}

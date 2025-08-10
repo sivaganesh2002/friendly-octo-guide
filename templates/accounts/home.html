@@ -2,8 +2,6 @@
 
 {% load static %}
 {% block title %}Home{% endblock %}
-    <link rel="stylesheet" href="{% static 'accounts/css/home.css' %}">
-    <script src="{% static 'accounts/js/home.js' %}"></script>
 
 {% block nav_actions %}
 <div class="user-welcome-container">
@@ -32,4 +30,14 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/css/home.css' %}">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'accounts/js/home.js' %}"></script>
 {% endblock %}

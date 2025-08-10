@@ -3,67 +3,59 @@
 {% load static %}
 {% block title %}problem bank{% endblock %}
 
-{% block scripts %}
-<script src="{% static 'js/problemset.js' %}"></script>
+{% block page_specific_nav %}
+    <div style="margin-right: 15px;">
+        <label for="search-bar"></label>
+        <input type="text" id="search-bar" placeholder="problem title..." />
+    </div>
 {% endblock %}
 
 {% block content %}
-<h2 style="display: flex; align-items: center; gap: 8px; padding: 14px;">
-    problem bank
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
-        <rect y="4" width="14" height="2" rx="1" />
-        <rect y="11" width="20" height="2" rx="1" />
-        <rect x="7" y="18" width="14" height="2" rx="1" />
-    </svg>
-
-    <div style="margin-bottom: 20px;">
-        <label for="search-bar">Search Problems:</label>
-        <input type="text" id="search-bar" placeholder="Enter problem title..." />
+<div class="split-container">
+    <!-- Left Pane -->
+    <div class="split-left">
+        {% if problems %}
+            <ul style="list-style-type: none; padding: 14px;">
+                {% for problem in problems %}
+                <li class="problem-item">
+                    <div class="problem-row">
+                        <a href="{% url 'problem_detail' problem.id %}" 
+                           class="problem-link" 
+                           data-title="{{ problem.title }}">
+                            {{ problem.title }}
+                        </a>
+                        {% if problem.get_tags %}
+                            <div class="tags">
+                                {% for tag in problem.get_tags %}
+                                    <span class="tag" data-tag="{{ tag }}">#{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <span class="difficulty difficulty-{{ problem.difficulty|lower }}">
+                            {{ problem.difficulty|title }}
+                        </span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No problems yet.</p>
+        {% endif %}
     </div>
-    
-    <div style="margin-bottom: 20px;">
-        <label for="difficulty-filter">Filter by Difficulty:</label>
-        <select id="difficulty-filter">
-            <option value="all">All</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-    </div>
 
-    <div style="margin-bottom: 20px;">
-        <button id="sort-difficulty">Sort by Difficulty</button>
+    <!-- Right Pane -->
+    <div class="split-right">
+        <!-- Leave this empty for now -->
     </div>
-</h2>
-{% if problems %}
-    <ul style="list-style-type: none; padding: 14px;">
-        {% for problem in problems %}
-            <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <div style="flex: 1; display: flex; align-items: center;">
-                    <a href="{% url 'problem_detail' problem.id %}" style="text-decoration: none; font-size: 16px; color: black; margin-right: 12px; min-width: 200px;">
-                        {{ problem.title }}
-                    </a>
-                    {% if problem.get_tags %}
-                        <div style="font-size: 12px; color: rgba(76, 76, 76, 0.86); min-width: 300px;">
-                            {% for tag in problem.get_tags %}
-                                <span style="margin-right: 6px;">#{{ tag }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
-                <span style="font-weight: normal; font-size: 12px; color: 
-                    {% if problem.difficulty == 'Hard' %}red
-                    {% elif problem.difficulty == 'Medium' %}#FFA500
-                    {% elif problem.difficulty == 'Easy' %}green
-                    {% else %}black{% endif %};">
-                    {{ problem.difficulty|title }}
-                </span>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No problems yet.</p>
-{% endif %}
-
+</div>
 {% endblock %}
 
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/problemset.js' %}"></script>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/problemset.css' %}">
+{% endblock %}

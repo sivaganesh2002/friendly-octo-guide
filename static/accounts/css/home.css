@@ -1,0 +1,48 @@
+.user-welcome-container {
+    position: relative;
+    display: flex;
+    align-items: center; /* Ensures vertical alignment */
+    margin-left: 23px; /* Positions the container 23px from the left */
+    padding: 0;
+    line-height: 1;
+}
+
+.username-display {
+    display: inline-block;
+    margin: 0; /* Ensures it stays independent of the container's margin */
+    padding: 8px 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.welcome-message-overlay {
+    /* --- POSITIONING --- */
+    position: absolute; /* Lifts it to become an overlay */
+
+    /* These four properties make it stretch to cover its parent EXACTLY */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* --- APPEARANCE (The CRITICAL Fix) --- */
+    /* It MUST have a background to hide the text underneath. */
+    /* Use the same color as your navbar. I am assuming a dark gray. */
+    background: #2e2e2e;
+    color: white;
+    text-decoration: none;
+
+    /* --- ALIGNMENT & FONT --- */
+    /* Use flexbox to perfectly center the text within the overlay area */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; /* Match the underlying link */
+
+    /* --- ANIMATION --- */
+    opacity: 1; /* Start fully visible */
+    transition: opacity 0.5s ease-in-out; /* The fade animation */
+    z-index: 10; /* Ensures it sits on top */
+}

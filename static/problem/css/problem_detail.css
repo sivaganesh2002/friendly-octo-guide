@@ -1,33 +1,101 @@
-.split-container {
+html, body {
+    height: 100%;
+    overflow: hidden; /* Prevent scrollbar for the whole page */
+}
+
+.problem-solving-container {
     display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-    margin-top: 2rem;
+    height: calc(100vh - 60px);
+    overflow: hidden;
 }
 
-.split-left, .split-right {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+.code-editor-container,
+.problem-details-container {
+    flex: 1; 
+    overflow-y: auto; 
 }
 
-.split-left {
-    flex: 1 1 45%;
-    min-width: 350px;
-    max-width: 600px;
+.code-editor {
+    flex: 1;
+    margin-bottom: 10px;
 }
 
-.split-right {
-    flex: 1 1 55%;
-    min-width: 350px;
-    max-width: 700px;
+.code-input-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    margin-top: 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 5px; /* Add spacing between buttons */
+}
+
+.button-group {
+    margin-top: 5px; /* Add spacing */
+}
+
+#run-btn {
+    background-color: #6c757d; /* Grey */
+    color: #fff;
+    border-radius: 0; /* Rounded left corners */
+}
+
+#ctestcase-btn {
+    background-color: #6c757d; /* Grey */
+    color: #fff;
+    border-radius: 0 7px 7px 0;
+}
+
+#submit-btn {
+    background-color: #007bff; /* Blue */
+    color: #fff;
+    border-radius: 4px 4px 4px 4px; /* Rounded right corners */
+}
+
+#ctestcase-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+}
+
+.output-section {
+    margin-top: 20px;
 }
 
 .output-box {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
+    background-color: #f1f1f1;
     padding: 10px;
     border-radius: 4px;
+    font-family: monospace;
     white-space: pre-wrap;
+    overflow-x: auto;
 }
+
+
+
+.problem-details-container .difficulty {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px; /* Ensure spacing below difficulty */
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap; /* Allow tags to wrap if they overflow */
+    gap: 5px; /* Add spacing between tags */
+    margin-top: 10px; /* Ensure spacing above tags */
+}
+
+.problem-details-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.problem-details-container .problem-description {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
