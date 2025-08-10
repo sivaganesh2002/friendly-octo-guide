@@ -1,125 +1,31 @@
 <!DOCTYPE html>
+
+{% load static %}
 <html>
 <head>
     <title>{% block title %}Code Judge{% endblock %}</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .navbar {
-            background-color: #2e2e2e;
-            color: white;
-            padding: 15px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 16px;
-        }
-
-        .nav-left a,
-        .nav-right a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 3px 6px 6px 6px;
-            border-radius: 4px;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .nav-left a:hover,
-        .nav-right a:hover {
-            background-color: #444;
-            color: #ffcc00;
-        }
-
-        .nav-left, .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-right a[href$="/logout/"] {
-            background-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-        }
-
-        .nav-right a[href$="/logout/"]:hover {
-            background-color: #444;
-            color: #ff4d4d;
-        }
-        
-        .nav-right a[href$="/logout/"] svg path {
-            fill: white;
-            transition: fill 0.2s ease;
-        }
-        
-        .nav-right a[href$="/logout/"]:hover svg path {
-            fill: #ff4d4d;
-        }
-        
-        .menu-icon {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
-        
-        .menu-icon svg {
-            fill: white;
-            transition: fill 0.2s ease;
-        }
-
-        .menu-icon svg:hover {
-            fill: #33a037;
-            cursor: pointer;
-        }
-
-        .user-welcome-container {
-            position: relative;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .welcome-message-overlay {
-            position: absolute;
-            top: 0;
-            left: -20;
-            bottom: 0;
-            z-index: 10;
-            background: #2e2e2e;
-            color: #f8f9fa;
-            border: 1px solid #2e2e2e;
-            border-radius: 5px;
-            padding: 0 10px;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease-in-out;
-
-            font-family: inherit;
-            font-weight: inherit;
-            font-size: 500;
-            text-decoration: none; 
-        }
-    </style>
+    
+    {% block scripts %}
+        <script src="{% static 'js/base.js' %}"></script>
+    {% endblock %}
+    
+    {% block styles %} 
+        <link rel="stylesheet" href="{% static 'css/base.css' %}"> 
+    {% endblock %}
 </head>
 <body>
+    
     <div class="navbar">
         <div class="nav-left">
-            <a href="{% url 'problem_bank' %}" class="menu-icon" aria-label="Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="4" width="14" height="2" rx="1" />
-                    <rect y="11" width="20" height="2" rx="1" />
-                    <rect x="7" y="18" width="14" height="2" rx="1" />
-                </svg>
-            </a>
-             {% block nav_actions %}
+            {% block nav_actions %}
+                <a href="{% url 'problem_bank' %}" class="menu-icon" aria-label="Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="4" width="14" height="2" rx="1" />
+                        <rect y="11" width="20" height="2" rx="1" />
+                        <rect x="7" y="18" width="14" height="2" rx="1" />
+                    </svg>
+                </a>
+             
                 {# Default content for authenticated users on other pages #}
                 {% if user.is_authenticated %}
                     <a href="{% url 'home' %}">@{{ user.username }}</a>

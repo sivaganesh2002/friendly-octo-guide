@@ -1,36 +1,69 @@
 {% extends "base.html" %}
 
-{% block title %}Problem Bank{% endblock %}
+{% load static %}
+{% block title %}problem bank{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/problemset.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-<h1>Problem Bank</h1>
+<h2 style="display: flex; align-items: center; gap: 8px; padding: 14px;">
+    problem bank
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
+        <rect y="4" width="14" height="2" rx="1" />
+        <rect y="11" width="20" height="2" rx="1" />
+        <rect x="7" y="18" width="14" height="2" rx="1" />
+    </svg>
 
+    <div style="margin-bottom: 20px;">
+        <label for="search-bar">Search Problems:</label>
+        <input type="text" id="search-bar" placeholder="Enter problem title..." />
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="difficulty-filter">Filter by Difficulty:</label>
+        <select id="difficulty-filter">
+            <option value="all">All</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <button id="sort-difficulty">Sort by Difficulty</button>
+    </div>
+</h2>
 {% if problems %}
-    <table border="1" style="width:100%; border-collapse: collapse;">
-        <thead>
-            <tr style="text-align: left;">
-                <th style="padding: 8px;">#</th>
-                <th style="padding: 8px;">Title</th>
-                <th style="padding: 8px;">Difficulty</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for problem in problems %}
-                <tr>
-                    <td style="padding: 8px;">{{ forloop.counter }}</td>
-                    <td style="padding: 8px;">
-                        {# This link will work after we create the 'problems' app #}
-                        <a href="{% url 'problem_detail' problem.id %}">
-                            {{ problem.title }}
-                        </a>
-                    </td>
-                    <td style="padding: 8px;">{{ problem.difficulty }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <ul style="list-style-type: none; padding: 14px;">
+        {% for problem in problems %}
+            <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div style="flex: 1; display: flex; align-items: center;">
+                    <a href="{% url 'problem_detail' problem.id %}" style="text-decoration: none; font-size: 16px; color: black; margin-right: 12px; min-width: 200px;">
+                        {{ problem.title }}
+                    </a>
+                    {% if problem.get_tags %}
+                        <div style="font-size: 12px; color: rgba(76, 76, 76, 0.86); min-width: 300px;">
+                            {% for tag in problem.get_tags %}
+                                <span style="margin-right: 6px;">#{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <span style="font-weight: normal; font-size: 12px; color: 
+                    {% if problem.difficulty == 'Hard' %}red
+                    {% elif problem.difficulty == 'Medium' %}#FFA500
+                    {% elif problem.difficulty == 'Easy' %}green
+                    {% else %}black{% endif %};">
+                    {{ problem.difficulty|title }}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
 {% else %}
     <p>No problems yet.</p>
 {% endif %}
 
 {% endblock %}
+
