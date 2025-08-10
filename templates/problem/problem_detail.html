@@ -12,6 +12,7 @@
             {% csrf_token %}
             
             <div class="language-selector">
+                <span class="code-icon"></span>
                 {{ form.language }}
             </div>
             <div class="code-editor">
@@ -32,43 +33,111 @@
             </div>
         </form>
 
-        <div class="output-section">
-            {% if status %}
-                <h3>Submission Status</h3>
-                <pre class="output-box">{{ status }}</pre>
-            {% endif %}
-            {% if coutput %}
-                <h3>Output</h3>
-                <pre class="output-box">{{ coutput }}</pre>
-            {% endif %}
-            {% if cerror %}
-                <h3>Error</h3>
-                <pre class="output-box">{{ cerror }}</pre>
-            {% endif %}
-            {% if ai_feedback %}
-                <h3>AI Feedback</h3>
-                <pre class="output-box">{{ ai_feedback }}</pre>
-            {% endif %}
-        </div>
+                {% if status or coutput or cerror or ai_feedback %}
+            <div class="output-section">
+                <div class="tab-selector">
+                    {% if status %}
+                        <button class="tab-btn active" data-tab="status-tab">Status</button>
+                    {% endif %}
+                    {% if coutput %}
+                        <button class="tab-btn {% if not status %}active{% endif %}" data-tab="output-tab">Output</button>
+                    {% endif %}
+                    {% if cerror %}
+                        <button class="tab-btn {% if not status and not coutput %}active{% endif %}" data-tab="error-tab">error</button>
+                    {% endif %}
+                    {% if ai_feedback %}
+                        <button class="tab-btn {% if not status and not coutput and not cerror %}active{% endif %}" data-tab="ai-feedback-tab">AI Feedback</button>
+                    {% endif %}
+                </div>
+                <div class="tab-content">
+                    {% if status %}
+                        <div id="status-tab" class="tab-pane active">
+                            <h3>Submission Status</h3>
+                            <pre class="status">{{ status }}</pre>
+                        </div>
+                    {% endif %}
+                    {% if coutput %}
+                        <div id="output-tab" class="tab-pane {% if not status %}active{% endif %}">
+                            <h3>Output</h3>
+                            <pre class="coutput">{{ coutput }}</pre>
+                        </div>
+                    {% endif %}
+                    {% if cerror %}
+                        <div id="error-tab" class="tab-pane {% if not status and not coutput %}active{% endif %}">
+                            <h3>Error</h3>
+                            <pre class="cerror">{{ cerror }}</pre>
+                        </div>
+                    {% endif %}
+                    {% if ai_feedback %}
+                        <div id="ai-feedback-tab" class="tab-pane {% if not status and not coutput and not cerror %}active{% endif %}">
+                            <h3>
+                                <span class="svg-ai-icon"></span> AI Feedback
+                            </h3>
+                            <pre class="ai-feedback">{{ ai_feedback }}</pre>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 
-    <!-- Right Pane: Problem Details -->
     <div class="problem-details-container">
-        <h1>{{ problem.title }}</h1>
-        <div class="problem-meta">
-            <span class="difficulty difficulty-{{ problem.difficulty|lower }}">{{ problem.difficulty }}</span>
-            <div class="tags">
-                {% for tag in problem.tags_list %}
-                    <span class="tag">#{{ tag }}</span>
-                {% endfor %}
+        <!-- Tab Selector -->
+        <div class="tab-selector">
+            <button class="tab-btn active" data-tab="problem-tab">Problem</button>
+            {% if ai_feedback %}
+                <button class="tab-btn" data-tab="ai-feedback-tab">AI Feedback</button>
+            {% endif %}
+            <button class="tab-btn" data-tab="chat-tab">Chatspace</button>
+        </div>
+    
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Problem Section -->
+            <div id="problem-tab" class="tab-pane active">
+                <h1>{{ problem.title }}</h1>
+                <div class="problem-meta">
+                    <span class="difficulty difficulty-{{ problem.difficulty|lower }}">{{ problem.difficulty }}</span>
+                    <div class="tags">
+                        {% for tag in problem.tags_list %}
+                            <span class="tag">#{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr>
+                <div class="problem-description">
+                    {{ problem.description|linebreaksbr }}
+                </div>
+            </div>
+        
+            <!-- AI Feedback Section -->
+            {% if ai_feedback %}
+                <div id="ai-feedback-tab" class="tab-pane {% if not status and not coutput and not cerror %}active{% endif %}">
+                    <h3>
+                        <span class="svg-ai-icon"></span> AI Feedback
+                    </h3>
+                    <pre class="ai-feedback">{{ ai_feedback }}</pre>
+                </div>
+            {% endif %}
+    
+            <!-- Chat Section -->
+            <div id="chat-tab" class="tab-pane">
+                <h2>Chatspace</h2>
+                <div class="chat-content">
+                    <!-- Chat messages will go here -->
+                    <div class="chat-messages">
+                        <p><strong>User1:</strong> Hello, I need help with this problem.</p>
+                        <p><strong>User2:</strong> Sure, what part are you stuck on?</p>
+                    </div>
+                </div>
+                <!-- Chat Footer -->
+                <div class="chat-footer">
+                    <textarea class="chat-input" placeholder="Type your message..."></textarea>
+                    <button class="send-btn">Send</button>
+                </div>
             </div>
         </div>
-        <hr>
-        <div class="problem-description">
-            {{ problem.description|linebreaksbr }}
-        </div>
     </div>
-</div>
 
 {% endblock %}
 

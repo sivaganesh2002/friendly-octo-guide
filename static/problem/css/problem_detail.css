@@ -41,15 +41,16 @@ html, body {
 }
 
 .language-selector {
-    border: 1px white;
+    border: none;
     flex-direction: column;
     margin-bottom: 0px;
     margin-top: 0px;
+    cursor: pointer;
 }
 
 .language-selector select {
     margin-bottom: 0px;
-    border-radius: 5px;
+    border: none;
     padding: 5px;
     border: none; /* Removes borders */
     color: black;
@@ -145,6 +146,8 @@ html, body {
 
 /* Output Section */
 .output-section {
+    display: flex;
+    flex-direction: column;
     margin-top: 20px;
     border-top: 1px solid #e0e0e0;
     padding-top: 15px;
@@ -157,10 +160,14 @@ html, body {
     padding: 15px;
     border-radius: 4px;
     font-family: monospace;
-    white-space: pre-wrap;
-    overflow-x: auto;
+    white-space: pre-wrap; /* Ensures long text wraps to the next line */
+    overflow-x: auto; /* Adds horizontal scrolling for long content */
+    overflow-y: auto; /* Adds vertical scrolling for long content */
+    max-height: 300px; /* Limits the height of the box */
     margin-top: 5px;
     border: 1px solid #ddd;
+    box-sizing: border-box; /* Ensures padding is included in the width/height */
+    word-wrap: break-word; /* Breaks long words to prevent overflow */
 }
 
 /* Right Pane: Problem Details */
@@ -198,14 +205,68 @@ html, body {
     font-size: 0.9rem;
 }
 
-.problem-details-container hr {
-    border: 0;
-    border-top: 1px solid #eee;
-    margin-bottom: 20px;
+.problem-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-left: 1px solid #e0e0e0;
 }
 
 .problem-description {
     font-size: 1rem;
     line-height: 1.6;
     color: #333;
+}
+
+.tab-selector {
+    display: flex;
+    gap: 10px;
+    margin: none;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 5px 5px 0 0;
+    margin: none;
+    transition: background-color 0.2s ease;
+}
+
+.tab-btn.active {
+    background-color: #333;
+    border-radius: 5px 5px 0 0;
+    color: white;
+}
+
+.tab-btn:hover {
+    border-color: grey;
+    border-radius: 5px 5px 0 0;
+    color: black;
+}
+
+.tab-btn.active:hover {
+    background-color: #333;
+    border-radius: 5px 5px 0 0;
+    color: #ddd;
+}
+
+.tab-content {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: none;
+    background-color: #ffffff;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
 }
