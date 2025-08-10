@@ -22,8 +22,9 @@ class Problem(models.Model):
     time_limit = models.FloatField(default=1.0, blank=True)  # In seconds
     memory_limit = models.IntegerField(default=256, blank=True)  # In MB
 
-    def get_tags(self) -> list[str]:
-        return self.tags.split(',') if  self.tags else []
+    @property
+    def tags_list(self) -> list[str]:
+        return [tag.strip() for tag in self.tags.split(',')] if self.tags else []
 
     def __str__(self):
         return self.title

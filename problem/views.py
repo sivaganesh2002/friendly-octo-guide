@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from compiler.views import execute
 import os
 import json
-
+from django.conf import settings
 from .ai_request import aicall
 
 # Create your views here.
@@ -83,7 +83,7 @@ def p_detail(request, pid):
             language = form.cleaned_data['language']
             
             if action == 'submit':
-                testcase_file = os.path.join('testcases', f'{pid}.json')
+                testcase_file = os.path.join(settings.BASE_DIR, 'testcases', f'{pid}.json')
                 
                 try:
                     with open(testcase_file, 'r') as f:
@@ -101,7 +101,7 @@ def p_detail(request, pid):
                     ctx['status'] = f"{pid}; Invalid test case format."
 
             elif action == 'run':
-                testcase_file = os.path.join('testcases', f'{pid}.json')
+                testcase_file = os.path.join(settings.BASE_DIR, 'testcases', f'{pid}.json')
 
                 try:
                     with open(testcase_file, 'r') as f:
@@ -131,19 +131,16 @@ def p_detail(request, pid):
                 ctx['coutput'] = result.get("coutput", "")
                 ctx['cerror'] = result.get("cerr", "")
 
-            if ctx.get('cerror') != "":
-
-                payload = [                    
+            if ctx.get('cerror'):
+                payload = [
                     problem.title,
                     problem.tags,
                     problem.constraints,
-
                     code,
-
                     ctx['cerror'],
                     ctx.get('status', "")
                 ]
-    
+                    
                 ctx['ai_feedback'] = aicall(payload, action)
 
 
@@ -164,8 +161,8 @@ def create_problem(request):
             problem.save()
 
             testcases = form.cleaned_data.get('testcases')
-            
-            testcase_file = os.path.join('testcases', f'{problem.id}.json')
+
+            testcase_file = os.path.join(settings.BASE_DIR, 'testcases', f'{problem.id}.json')
 
             with open(testcase_file, 'w') as f:
                 f.write(testcases)

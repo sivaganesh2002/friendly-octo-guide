@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('search-bar');
     const problems = document.querySelectorAll('ul > li');
     const tags = document.querySelectorAll('.tag');
+    const searchIcon = document.getElementById('search-icon');
 
     // --- Tag Highlighting ---
 
@@ -22,6 +23,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Event listener for search bar
-    searchBar.addEventListener('input', updateProblemVisibility);
+    searchIcon.addEventListener('click', () => {
+        searchBar.classList.add('visible'); // Add the visible class for transition
+        searchBar.style.display = 'block'; // Ensure the search bar is displayed
+        searchBar.focus(); // Focus the search bar
+        searchIcon.style.opacity = '0'; // Fade out the search icon
+        setTimeout(() => {
+            searchIcon.style.display = 'none'; // Hide the search icon after transition
+        }, 500); // Match the transition duration
+    });
+
+    // --- Hide Search Bar on Blur ---
+    searchBar.addEventListener('blur', () => {
+        searchBar.classList.remove('visible'); // Remove the visible class for transition
+        searchIcon.style.display = 'block'; // Show the search icon
+        setTimeout(() => {
+            searchIcon.style.opacity = '1'; // Fade in the search icon
+            searchBar.style.display = 'none'; // Hide the search bar after transition
+        }, 500); // Match the transition duration
+    });
 });

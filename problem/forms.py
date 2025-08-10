@@ -15,7 +15,7 @@ class SubmissionForm(forms.Form):
     code = forms.CharField(widget=forms.Textarea(
         attrs={'id':'vi', 'class': 'form-control', 
                'rows': 10, 'cols' : 75, 
-               'placeholder': 'Write your code here...'}), 
+               'placeholder': 'print("Hello World")'}), 
         required=True)
     cinput = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 2, 'cols': 75, 

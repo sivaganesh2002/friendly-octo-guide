@@ -8,7 +8,7 @@
 <div class="problem-solving-container">
     <!-- Left Pane: Code Editor -->
     <div class="code-editor-container">
-        <form method="POST" action="{% url 'problem_detail' problem.id %}">
+        <form method="POST" action="{% url 'problem_detail' problem.id %}" class="code-form">
             {% csrf_token %}
             
             <div class="language-selector">
@@ -17,14 +17,18 @@
             <div class="code-editor">
                 {{ form.code }}
             </div>
-            <div class="code-input-box">
-                {{ form.cinput }}
-            </div>
 
-            <div class="button-group">
-                <button type="submit" name="action" value="run" id="run-btn">Run</button>
-                <button type="submit" name="action" value="testcase" id="ctestcase-btn">Testcase</button>
-                <button type="submit" name="action" value="submit" id="submit-btn">Submit</button>
+            <div class="input-actions-container">
+                <div class="code-input-box">
+                    {{ form.cinput }}
+                </div>
+                <div class="button-group">
+                    <button type="submit" name="action" value="run" id="run-btn">run</button>
+                    <button type="submit" name="action" value="testcase" id="ctestcase-btn">
+                        <span class="svg-icon"></span>
+                    </button>
+                    <button type="submit" name="action" value="submit" id="submit-btn">submit</button>
+                </div>
             </div>
         </form>
 
@@ -51,15 +55,17 @@
     <!-- Right Pane: Problem Details -->
     <div class="problem-details-container">
         <h1>{{ problem.title }}</h1>
-        <p class="difficulty">{{ problem.difficulty }}</p>
-        <div class="tags">
-            {% for tag in problem.tags %}
-                <span class="tag">{{ tag }}</span>
-            {% endfor %}
+        <div class="problem-meta">
+            <span class="difficulty difficulty-{{ problem.difficulty|lower }}">{{ problem.difficulty }}</span>
+            <div class="tags">
+                {% for tag in problem.tags_list %}
+                    <span class="tag">#{{ tag }}</span>
+                {% endfor %}
+            </div>
         </div>
         <hr>
         <div class="problem-description">
-            <p>{{ problem.description|linebreaks }}</p>
+            {{ problem.description|linebreaksbr }}
         </div>
     </div>
 </div>

@@ -4,10 +4,14 @@
 {% block title %}problem bank{% endblock %}
 
 {% block page_specific_nav %}
-    <div style="margin-right: 15px;">
-        <label for="search-bar"></label>
-        <input type="text" id="search-bar" placeholder="problem title..." />
-    </div>
+<div style="margin-right: 15px; display: flex; align-items: center;">
+    <!-- Search Icon -->
+    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="gray" viewBox="0 0 24 24" style="cursor: pointer;">
+        <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm11.707 15.293-4.387-4.387a9.953 9.953 0 0 0 1.414-1.414l4.387 4.387a1 1 0 0 1-1.414 1.414z"/>
+    </svg>
+    <!-- Search Bar -->
+    <input type="text" id="search-bar" placeholder="Search problem title..." style="display: none;" />
+</div>
 {% endblock %}
 
 {% block content %}
@@ -24,9 +28,9 @@
                            data-title="{{ problem.title }}">
                             {{ problem.title }}
                         </a>
-                        {% if problem.get_tags %}
+                        {% if problem.tags_list %}
                             <div class="tags">
-                                {% for tag in problem.get_tags %}
+                                {% for tag in problem.tags_list %}
                                     <span class="tag" data-tag="{{ tag }}">#{{ tag }}</span>
                                 {% endfor %}
                             </div>

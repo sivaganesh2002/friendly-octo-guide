@@ -5,6 +5,8 @@ from django.conf import settings
 import uuid
 
 # define path to tmp directory
+
+
 COMPILER_DIR = Path(settings.BASE_DIR) / 'compiler' / 'tmp'
 CODE_DIR = COMPILER_DIR / 'code'
 EXEC_DIR = COMPILER_DIR / 'executables'
@@ -101,6 +103,10 @@ def execute(language, code, cinput) :
     """
 
     uuid_name = uuid.uuid4()
+
+    CODE_DIR.mkdir(parents=True, exist_ok=True)
+    EXEC_DIR.mkdir(parents=True, exist_ok=True)
+
     path = None
     if language in ['cpp', 'c']:
         path = CODE_DIR / f'{uuid_name}.{language}'

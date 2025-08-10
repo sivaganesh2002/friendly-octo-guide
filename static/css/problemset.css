@@ -90,3 +90,31 @@
 .difficulty-easy {
     color: rgb(0, 164, 0);
 }
+
+/* Search Bar Styling */
+#search-bar {
+    padding: 8px 12px;
+    border: 1px solid #000000; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #2c2929; /* Light gray background */
+    color: #333; /* Dark text color */
+    font-size: 14px;
+    width: 200px; /* Adjust width */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+#search-bar:focus {
+    border-color: #0d6efd; /* Blue border on focus */
+    box-shadow: 0 0 4px rgba(13, 110, 253, 0.5); /* Subtle shadow on focus */
+    outline: none; /* Remove default outline */
+}
+
+#search-bar.visible {
+    opacity: 1; /* Fully visible */
+}
+
+#search-icon {
+    color:#f0f0f0;
+    cursor: pointer; /* Make the icon clickable */
+    transition: opacity 0.5s ease; 
+}
