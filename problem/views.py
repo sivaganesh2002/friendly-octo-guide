@@ -18,6 +18,20 @@ def run(code, cinput, language):
     result = execute(language, code, cinput)
     return result
 
+def validate_submission(coutput, expected_output):
+    """
+    Validate the output of a code submission against the expected output.
+    """
+    if isinstance(coutput, list):
+        coutput = " ".join(map(str, coutput))
+    if isinstance(expected_output, str):
+        expected_output = expected_output.strip().lower()
+    # Normalize the output by removing extra spaces and newlines
+    
+    if coutput == expected_output:
+        return True
+    return False
+
 def evaluate_submission(code, language, testcases, pid):
     """
     Evaluates the user's code against a set of test cases.
@@ -35,7 +49,7 @@ def evaluate_submission(code, language, testcases, pid):
                     input_parts.append(str(value))
             cinput = '\n'.join(input_parts)
 
-            expected_output = str(testcase['output']).lower()
+            expected_output = testcase['output']
 
         except KeyError:
             return {
@@ -47,13 +61,14 @@ def evaluate_submission(code, language, testcases, pid):
         coutput = result.get("coutput", "").strip().lower()
         cerr = result.get("cerror", "").strip()
 
+        
         if cerr:
             return {
-                'cerror': cerr + f" (Testcase {i+1}| {cinput} : {expected_output} ~ {coutput})",
+                'cerror': cerr + f" (Testcase {i+1}| {cinput} -> {expected_output} ~{coutput})",
                 'status': f"{pid}; Error in testcase {i+1}: {cerr}"
             }
 
-        if coutput != expected_output:
+        if validate_submission(coutput, expected_output):
             return {
                 'cerror': f"Testcase {cinput} : {coutput}",
                 'status': f"{pid}; Testcase {i+1} failed: expected '{expected_output}', got '{coutput}'"

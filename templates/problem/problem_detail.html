@@ -112,13 +112,12 @@
         
             <!-- AI Feedback Section -->
             {% if ai_feedback %}
-                <div id="ai-feedback-tab" class="tab-pane {% if not status and not coutput and not cerror %}active{% endif %}">
-                    <h3>
-                        <span class="svg-ai-icon"></span> AI Feedback
-                    </h3>
-                    <pre class="ai-feedback">{{ ai_feedback }}</pre>
-                </div>
-            {% endif %}
+            <div id="ai-feedback-tab" class="tab-pane {% if not status and not coutput and not cerror %}active{% endif %}">
+                <h3>
+                    <span class="svg-ai-icon"></span> AI Feedback
+                </h3>
+                <pre class="ai-feedback">{{ ai_feedback }}</pre>
+            </div>
     
             <!-- Chat Section -->
             <div id="chat-tab" class="tab-pane">

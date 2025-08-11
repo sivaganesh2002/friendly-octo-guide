@@ -114,7 +114,7 @@
 }
 
 #search-icon {
-    color:#f0f0f0;
+    color: white;
     cursor: pointer; /* Make the icon clickable */
     transition: opacity 0.5s ease; 
 }

@@ -2,26 +2,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Element Selection ---
     const searchBar = document.getElementById('search-bar');
     const problems = document.querySelectorAll('ul > li');
-    const tags = document.querySelectorAll('.tag');
     const searchIcon = document.getElementById('search-icon');
 
     // --- Tag Highlighting ---
 
     // --- Search Function ---
+    const problemsCache = Array.from(problems).map(problem => {
+        return {
+            element: problem,
+            title: problem.querySelector('a').textContent.toLowerCase()
+        };
+    });
+
     const updateProblemVisibility = () => {
-        const searchQuery = searchBar.value.toLowerCase();
+    const searchQuery = searchBar.value.toLowerCase();
 
-        problems.forEach(problem => {
-            const title = problem.querySelector('a').textContent.toLowerCase();
-            const matchesSearch = title.includes(searchQuery);
-
-            if (matchesSearch) {
-                problem.style.display = 'flex';
-            } else {
-                problem.style.display = 'none';
-            }
+    problemsCache.forEach(problem => {
+        const isVisible = problem.title.includes(searchQuery);
+            // This is slightly faster as it avoids an if/else block
+            problem.element.style.display = isVisible ? 'flex' : 'none';
         });
     };
+
+    // --- 2. Debounce the input to avoid running the function on every keystroke ---
+    let debounceTimer;
+    searchBar.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(updateProblemVisibility, 250); // 250ms delay
+    });
+
 
     searchIcon.addEventListener('click', () => {
         searchBar.classList.add('visible'); // Add the visible class for transition

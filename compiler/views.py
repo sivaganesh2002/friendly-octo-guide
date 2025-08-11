@@ -104,13 +104,16 @@ def execute(language, code, cinput) :
 
     uuid_name = uuid.uuid4()
 
+
     CODE_DIR.mkdir(parents=True, exist_ok=True)
     EXEC_DIR.mkdir(parents=True, exist_ok=True)
 
     path = None
     if language in ['cpp', 'c']:
+        cinput = cinput.replace("None", "null")
         path = CODE_DIR / f'{uuid_name}.{language}'
     else: 
+        cinput = cinput.replace("null", "None")
         path = EXEC_DIR / f'{uuid_name}.py'
 
     if path is None:
